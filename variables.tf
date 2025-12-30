@@ -20,20 +20,8 @@ variable "num_worker_instances" {
   default     = 1
 }
 
-variable "availability_domain_master" {
-  description = "(Optional) Availability domain for dokploy-main instance. If not provided, instances will be distributed automatically across available domains. Find it Core Infrastructure → Compute → Instances → Availability domain (left menu). For example: WBJv:EU-FRANKFURT-1-AD-1"
-  type        = string
-  default     = null
-}
-
-variable "availability_domain_workers" {
-  description = "(Optional) Availability domain for dokploy-worker instances. If not provided, instances will be distributed automatically across available domains. Find it Core Infrastructure → Compute → Instances → Availability domain (left menu). For example: WBJv:EU-FRANKFURT-1-AD-2"
-  type        = string
-  default     = null
-}
-
 variable "instance_shape" {
   description = "The shape of the instance. VM.Standard.A1.Flex is free tier eligible."
   type        = string
-  default     = "VM.Standard.A1.Flex" # OCI Free
+  default     = "VM.Standard.A1.Flex"
 }

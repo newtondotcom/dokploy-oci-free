@@ -4,7 +4,7 @@ resource "oci_core_instance" "dokploy_main" {
 
   display_name        = "dokploy-main-${count.index + 1}-${random_string.resource_code.result}"
   compartment_id      = var.compartment_id
-  availability_domain = var.availability_domain_master != null ? var.availability_domain_master : local.master_availability_domains[count.index]
+  availability_domain = local.master_availability_domains[count.index]
 
   is_pv_encryption_in_transit_enabled = local.instance_config.is_pv_encryption_in_transit_enabled
   shape                               = local.instance_config.shape
@@ -93,7 +93,7 @@ resource "oci_core_instance" "dokploy_worker" {
 
   display_name        = "dokploy-worker-${count.index + 1}-${random_string.resource_code.result}"
   compartment_id      = var.compartment_id
-  availability_domain = var.availability_domain_workers != null ? var.availability_domain_workers : local.worker_availability_domains[count.index]
+  availability_domain = local.worker_availability_domains[count.index]
 
   is_pv_encryption_in_transit_enabled = local.instance_config.is_pv_encryption_in_transit_enabled
   shape                               = local.instance_config.shape

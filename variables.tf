@@ -8,11 +8,6 @@ variable "compartment_id" {
   type        = string
 }
 
-variable "source_image_id" {
-  description = "Source Ubuntu 22.04 image OCID. Find the right one for your region: https://docs.oracle.com/en-us/iaas/images/image/128dbc42-65a9-4ed0-a2db-be7aa584c726/index.htm"
-  type        = string
-}
-
 variable "num_worker_instances" {
   description = "Number of Dokploy worker instances to deploy (max 3 for free tier)."
   type        = number

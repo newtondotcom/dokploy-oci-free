@@ -9,8 +9,8 @@ locals {
       ocpus         = var.ocpus
     }
     source_details = {
-      source_id   = var.source_image_id
-      source_type = "image"
+      source_id             = data.oci_core_images.ubuntu_images.images[0].id
+      source_type           = "image"
     }
     availability_config = {
       recovery_action = "RESTORE_INSTANCE"

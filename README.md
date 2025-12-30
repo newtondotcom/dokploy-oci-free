@@ -13,14 +13,8 @@ This Terraform project deploys a Dokploy instance along with worker nodes in Ora
    ```bash
    terraform init
    terraform plan
-   terraform apply
+   terraform apply -var-file="user/terraform.tfvars"
    ```
-
-## Deploy
-
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/statickidz/dokploy-oci-free/archive/refs/heads/main.zip)
-
-*Clicking the "Deploy to Oracle Cloud" button will load the Oracle Cloud Resource Manager to deploy the infrastructure described in this Terraform project. During deployment, you'll be prompted to configure the stack parameters. Review the settings, then launch the stack deployment.*
 
 ## About Dokploy
 
@@ -44,6 +38,7 @@ For detailed information about the free tier, visit [OCI Free Tier](https://www.
 
 Before you begin, ensure you have the following:
 
+-   `tofu` installed
 -   An Oracle Cloud Infrastructure (OCI) account with Free Tier resources available.
 -   An SSH public key for accessing the instances.
 -   Established API key authentication.

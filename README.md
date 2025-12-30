@@ -42,7 +42,7 @@ To begin deploying applications, you need to add servers to your Dokploy cluster
 #### Steps to Add Servers:
 
 1.  **Login to Dokploy Dashboard**:
-    -   Access the Dokploy dashboard via the main instance's public IP address. You'll need to use the login credentials configured during setup.
+    -   Access the Dokploy dashboard via the master instance's public IP address. You'll need to use the login credentials configured during setup.
 1.  **Generate SSH Keys**:
     -   On the left-hand menu, click on "SSH Keys" and add your private and public SSH key to connect your server.
 2.  **Navigate to Servers Section**:
@@ -57,7 +57,7 @@ To begin deploying applications, you need to add servers to your Dokploy cluster
 
 ### Configure a Dokploy Cluster with new workers
 
-After setting up the main Dokploy instance, you can expand your cluster by adding worker nodes. These worker instances will help distribute the workload for your deployments.
+After setting up the master Dokploy instance, you can expand your cluster by adding worker nodes. These worker instances will help distribute the workload for your deployments.
 
 See more info about configuring your cluster on the [Dokploy Cluster Docs](https://docs.dokploy.com/docs/core/cluster).
 
@@ -69,7 +69,7 @@ See more info about configuring your cluster on the [Dokploy Cluster Docs](https
 -   `helper.tf`: Contains helper functions and reusable modules to streamline the infrastructure setup.
 -   `doc/`: Directory for images used in the README (e.g., screenshots of Dokploy setup).
 -   `locals.tf`: Defines local values used throughout the Terraform configuration, such as dynamic values or reusable expressions.
--   `main.tf`: Core Terraform configuration file that defines the infrastructure for Dokploy's main and worker instances.
+-   `main.tf`: Core Terraform configuration file that defines the infrastructure for Dokploy's master and worker instances.
 -   `network.tf`: Configuration for setting up the required OCI networking resources (VCNs, subnets, security lists, etc.).
 -   `output.tf`: Specifies the output variables such as the IP addresses for the dashboard and worker nodes.
 -   `providers.tf`: Declares the required cloud providers and versions, particularly for Oracle Cloud Infrastructure.
@@ -80,11 +80,21 @@ See more info about configuring your cluster on the [Dokploy Cluster Docs](https
 
 Below are the key variables for deployment which are defined in `variables.tf`:
 
--   `ssh_authorized_keys`: Your SSH public key for accessing the instances.
--   `compartment_id`: OCI compartment ID for instance deployment.
--   `num_worker_instances`: Number of worker instances to deploy for Dokploy.
--   `availability_domain_master`: Availability domain for the main instance.
--   `availability_domain_workers`: Availability domains for worker instances.
--   `instance_shape`: Instance shape (e.g., VM.Standard.E2.1.Micro) used for deployment.
--   `memory_in_gbs`: Memory size (GB) per instance.
--   `ocpus`: Number of OCPUs per instance.
+-   `ssh_authorized_keys`: Your SSH public key for accessing the instances. Example: `ssh-rsa AAEAAAA....3R ssh-key-2024-09-03`
+-   `compartment_id`: The OCID of the compartment. Find it: Profile → Tenancy: youruser → Tenancy information → OCID https://cloud.oracle.com/tenancy
+-   `num_master_instances`: Number of Dokploy master instances to deploy. (Default: `1`)
+-   `num_worker_instances`: Number of Dokploy worker instances to deploy. (Default: `1`)
+-   `instance_shape`: The shape of the instance. VM.Standard.A1.Flex is free tier eligible. (Default: `VM.Standard.A1.Flex`)
+
+### Automatic Configuration
+
+The following values are automatically calculated based on Oracle Cloud Free Tier limits and the number of instances:
+
+-   **Memory (memory_in_gbs)**: Automatically distributed as `24 GB / (num_master_instances + num_worker_instances)` to comply with free tier limits
+-   **OCPUs**: Automatically distributed as `4 OCPUs / (num_master_instances + num_worker_instances)` to comply with free tier limits
+-   **Boot Volume Size**: Automatically calculated as `200 GB / num_worker_instances` per instance
+-   **Availability Domains**: Master and worker instances are automatically distributed evenly across all available availability domains in your region
+
+
+### Note
+Dokploy only support one Master

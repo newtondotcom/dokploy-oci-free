@@ -83,7 +83,7 @@ Below are the key variables for deployment which are defined in `variables.tf`:
 -   `ssh_authorized_keys`: Your SSH public key for accessing the instances.
 -   `compartment_id`: OCI compartment ID for instance deployment.
 -   `num_worker_instances`: Number of worker instances to deploy for Dokploy.
--   `availability_domain_main`: Availability domain for the main instance.
+-   `availability_domain_master`: Availability domain for the main instance.
 -   `availability_domain_workers`: Availability domains for worker instances.
 -   `instance_shape`: Instance shape (e.g., VM.Standard.E2.1.Micro) used for deployment.
 -   `memory_in_gbs`: Memory size (GB) per instance.

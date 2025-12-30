@@ -8,36 +8,32 @@ variable "compartment_id" {
   type        = string
 }
 
-variable "num_worker_instances" {
-  description = "Number of Dokploy worker instances to deploy (max 3 for free tier)."
+variable "num_master_instances" {
+  description = "Number of Dokploy master instances to deploy."
   type        = number
   default     = 1
 }
 
-variable "availability_domain_main" {
+variable "num_worker_instances" {
+  description = "Number of Dokploy worker instances to deploy."
+  type        = number
+  default     = 1
+}
+
+variable "availability_domain_master" {
   description = "Availability domain for dokploy-main instance. Find it Core Infrastructure → Compute → Instances → Availability domain (left menu). For example: WBJv:EU-FRANKFURT-1-AD-1"
   type        = string
+  default     = data.oci_identity_availability_domains.ads.availability_domains[0].name
 }
 
 variable "availability_domain_workers" {
   description = "Availability domain for dokploy-main instance. Find it Core Infrastructure → Compute → Instances → Availability domain (left menu). For example: WBJv:EU-FRANKFURT-1-AD-2"
   type        = string
+  default     = data.oci_identity_availability_domains.ads.availability_domains.length > 1 ? data.oci_identity_availability_domains.ads.availability_domains[1].name : data.oci_identity_availability_domains.ads.availability_domains[0].name
 }
 
 variable "instance_shape" {
   description = "The shape of the instance. VM.Standard.A1.Flex is free tier eligible."
   type        = string
   default     = "VM.Standard.A1.Flex" # OCI Free
-}
-
-variable "memory_in_gbs" {
-  description = "Memory in GBs for instance shape config. 6 GB is the maximum for free tier in 3 working nodes, because 24 GB in total."
-  type        = string
-  default     = "6" # OCI Free in
-}
-
-variable "ocpus" {
-  description = "OCPUs for instance shape config. 1 OCPU is the maximum for free tier with 3 working nodes, because 4 OCPUs in total."
-  type        = string
-  default     = "1" # OCI Free
 }

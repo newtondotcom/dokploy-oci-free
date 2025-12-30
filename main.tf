@@ -2,7 +2,7 @@
 resource "oci_core_instance" "dokploy_main" {
   display_name        = "dokploy-main-${random_string.resource_code.result}"
   compartment_id      = var.compartment_id
-  availability_domain = var.availability_domain_main
+  availability_domain = var.availability_domain_master
 
   is_pv_encryption_in_transit_enabled = local.instance_config.is_pv_encryption_in_transit_enabled
   shape                               = local.instance_config.shape
@@ -34,8 +34,8 @@ resource "oci_core_instance" "dokploy_main" {
   }
 
   source_details {
-    source_id             = local.instance_config.source_details.source_id
-    source_type           = local.instance_config.source_details.source_type
+    source_id               = local.instance_config.source_details.source_id
+    source_type             = local.instance_config.source_details.source_type
     boot_volume_size_in_gbs = local.instance_config.source_details.boot_volume_size_in_gbs
   }
 
@@ -123,8 +123,8 @@ resource "oci_core_instance" "dokploy_worker" {
   }
 
   source_details {
-    source_id             = local.instance_config.source_details.source_id
-    source_type           = local.instance_config.source_details.source_type
+    source_id               = local.instance_config.source_details.source_id
+    source_type             = local.instance_config.source_details.source_type
     boot_volume_size_in_gbs = local.instance_config.source_details.boot_volume_size_in_gbs
   }
 

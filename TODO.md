@@ -1,0 +1,1 @@
+- // Crééer des buckets standard et archive pour profiter du Oracle Free Tier

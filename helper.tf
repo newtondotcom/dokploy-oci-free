@@ -14,3 +14,8 @@ data "oci_core_images" "ubuntu_images" {
   sort_by                  = "TIMECREATED"
   sort_order               = "DESC"
 }
+
+# Fetch Availability Domains
+data "oci_identity_availability_domains" "ads" {
+  compartment_id = var.compartment_id
+}

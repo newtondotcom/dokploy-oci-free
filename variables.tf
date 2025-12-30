@@ -21,15 +21,15 @@ variable "num_worker_instances" {
 }
 
 variable "availability_domain_master" {
-  description = "Availability domain for dokploy-main instance. Find it Core Infrastructure → Compute → Instances → Availability domain (left menu). For example: WBJv:EU-FRANKFURT-1-AD-1"
+  description = "(Optional) Availability domain for dokploy-main instance. If not provided, instances will be distributed automatically across available domains. Find it Core Infrastructure → Compute → Instances → Availability domain (left menu). For example: WBJv:EU-FRANKFURT-1-AD-1"
   type        = string
-  default     = data.oci_identity_availability_domains.ads.availability_domains[0].name
+  default     = null
 }
 
 variable "availability_domain_workers" {
-  description = "Availability domain for dokploy-main instance. Find it Core Infrastructure → Compute → Instances → Availability domain (left menu). For example: WBJv:EU-FRANKFURT-1-AD-2"
+  description = "(Optional) Availability domain for dokploy-worker instances. If not provided, instances will be distributed automatically across available domains. Find it Core Infrastructure → Compute → Instances → Availability domain (left menu). For example: WBJv:EU-FRANKFURT-1-AD-2"
   type        = string
-  default     = data.oci_identity_availability_domains.ads.availability_domains.length > 1 ? data.oci_identity_availability_domains.ads.availability_domains[1].name : data.oci_identity_availability_domains.ads.availability_domains[0].name
+  default     = null
 }
 
 variable "instance_shape" {

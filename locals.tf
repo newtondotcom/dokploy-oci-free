@@ -4,6 +4,28 @@ locals {
   max_ocpus_total      = 4
   max_memory_gbs_total = 24
 
+  # Availability domain distribution (even spread across all ADs)
+  # Masters and workers are distributed separately and evenly
+  num_availability_domains = length(data.oci_identity_availability_domains.ads.availability_domains)
+  
+  # List of AD names for master instances (even distribution across all available ADs)
+  # Formula: floor(idx * num_ads / num_master_instances) ensures even spread
+  master_availability_domains = var.num_master_instances > 0 ? [
+    for idx in range(var.num_master_instances) :
+    data.oci_identity_availability_domains.ads.availability_domains[
+      floor(idx * local.num_availability_domains / var.num_master_instances)
+    ].name
+  ] : []
+  
+  # List of AD names for worker instances (even distribution across all available ADs)
+  # Formula: floor(idx * num_ads / num_worker_instances) ensures even spread
+  worker_availability_domains = var.num_worker_instances > 0 ? [
+    for idx in range(var.num_worker_instances) :
+    data.oci_identity_availability_domains.ads.availability_domains[
+      floor(idx * local.num_availability_domains / var.num_worker_instances)
+    ].name
+  ] : []
+
   instance_config = {
     is_pv_encryption_in_transit_enabled = true
     ssh_authorized_keys                 = var.ssh_authorized_keys

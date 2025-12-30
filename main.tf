@@ -1,8 +1,10 @@
 # Main instance
 resource "oci_core_instance" "dokploy_main" {
-  display_name        = "dokploy-main-${random_string.resource_code.result}"
+  count = var.num_master_instances
+
+  display_name        = "dokploy-main-${count.index + 1}-${random_string.resource_code.result}"
   compartment_id      = var.compartment_id
-  availability_domain = var.availability_domain_master
+  availability_domain = var.availability_domain_master != null ? var.availability_domain_master : local.master_availability_domains[count.index]
 
   is_pv_encryption_in_transit_enabled = local.instance_config.is_pv_encryption_in_transit_enabled
   shape                               = local.instance_config.shape
@@ -13,7 +15,7 @@ resource "oci_core_instance" "dokploy_main" {
   }
 
   create_vnic_details {
-    display_name              = "dokploy-main-${random_string.resource_code.result}"
+    display_name              = "dokploy-main-${count.index + 1}-${random_string.resource_code.result}"
     subnet_id                 = oci_core_subnet.dokploy_subnet.id
     assign_ipv6ip             = false
     assign_private_dns_record = true
@@ -91,7 +93,7 @@ resource "oci_core_instance" "dokploy_worker" {
 
   display_name        = "dokploy-worker-${count.index + 1}-${random_string.resource_code.result}"
   compartment_id      = var.compartment_id
-  availability_domain = var.availability_domain_workers
+  availability_domain = var.availability_domain_workers != null ? var.availability_domain_workers : local.worker_availability_domains[count.index]
 
   is_pv_encryption_in_transit_enabled = local.instance_config.is_pv_encryption_in_transit_enabled
   shape                               = local.instance_config.shape

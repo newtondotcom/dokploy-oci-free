@@ -7,7 +7,7 @@ resource "random_string" "resource_code" {
 
 # Fetch Ubuntu Images (ou Oracle Linux)
 data "oci_core_images" "ubuntu_images" {
-  compartment_id           = var.compartment_ocid
+  compartment_id           = var.compartment_id
   operating_system         = "Canonical Ubuntu"
   operating_system_version = "24.04"
   shape                    = var.instance_shape

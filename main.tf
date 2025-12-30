@@ -2,7 +2,7 @@
 resource "oci_core_instance" "dokploy_main" {
   count = var.num_master_instances
 
-  display_name        = "dokploy-main-${count.index + 1}-${random_string.resource_code.result}"
+  display_name        = "dokploy-master-${count.index + 1}-${random_string.resource_code.result}"
   compartment_id      = var.compartment_id
   availability_domain = local.master_availability_domains[count.index]
 
@@ -11,11 +11,12 @@ resource "oci_core_instance" "dokploy_main" {
 
   metadata = {
     ssh_authorized_keys = local.instance_config.ssh_authorized_keys
-    user_data           = base64encode(file("./bin/dokploy-main.sh"))
+    user_data           = base64encode(file("./bin/dokploy-master.sh"))
+    "instance-role"     = "master" 
   }
 
   create_vnic_details {
-    display_name              = "dokploy-main-${count.index + 1}-${random_string.resource_code.result}"
+    display_name              = "dokploy-master-${count.index + 1}-${random_string.resource_code.result}"
     subnet_id                 = oci_core_subnet.dokploy_subnet.id
     assign_ipv6ip             = false
     assign_private_dns_record = true
@@ -101,6 +102,7 @@ resource "oci_core_instance" "dokploy_worker" {
   metadata = {
     ssh_authorized_keys = local.instance_config.ssh_authorized_keys
     user_data           = base64encode(file("./bin/dokploy-worker.sh"))
+    "instance-role"     = "worker" 
   }
 
   create_vnic_details {

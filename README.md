@@ -63,8 +63,8 @@ See more info about configuring your cluster on the [Dokploy Cluster Docs](https
 
 ## Project Structure
 
--   `bin/`: Contains bash scripts for setting up Dokploy on both the main instance and the worker instances.
-    -   `dokploy-main.sh`: Script to install Dokploy on the main instance.
+-   `bin/`: Contains bash scripts for setting up Dokploy on both the master instance and the worker instances.
+    -   `dokploy-master.sh`: Script to install Dokploy on the master instance.
     -   `dokploy-worker.sh`: Script to configure necessary dependencies on worker instances.
 -   `helper.tf`: Contains helper functions and reusable modules to streamline the infrastructure setup.
 -   `doc/`: Directory for images used in the README (e.g., screenshots of Dokploy setup).

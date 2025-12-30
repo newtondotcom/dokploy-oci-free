@@ -1,1 +1,3 @@
-- // Crééer des buckets standard et archive pour profiter du Oracle Free Tier
+- Create Standard and archive object buckets for backups which are part of OCI free tier
+- DOKPLOY support mulitples master __ we must see how to integrate this in tf deployment
+- Monitor the following repo because we might be able to deploy things with tf : https://github.com/j0bIT/terraform-provider-dokploy

@@ -46,3 +46,8 @@ variable "num_worker_instances" {
   type        = number
   default     = 1
 }
+
+variable "alert_email" {
+  description = "Email address you cant to be alerted if you are being charged by Oracle" 
+  type = string
+}

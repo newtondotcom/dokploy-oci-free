@@ -12,7 +12,7 @@ resource "oci_core_instance" "dokploy_main" {
   metadata = {
     ssh_authorized_keys = local.instance_config.ssh_authorized_keys
     user_data           = base64encode(file(count.index == 0 ? "${path.root}/bin/dokploy-master.sh" : "${path.root}/bin/dokploy-worker.sh"))
-    "instance-role"     = count.index == 0 ? "master" : "worker" 
+    "instance-role"     = count.index == 0 ? "master" : "worker"
   }
 
   create_vnic_details {
@@ -102,7 +102,7 @@ resource "oci_core_instance" "dokploy_worker" {
   metadata = {
     ssh_authorized_keys = local.instance_config.ssh_authorized_keys
     user_data           = base64encode(file("${path.root}/bin/dokploy-worker.sh"))
-    "instance-role"     = "worker" 
+    "instance-role"     = "worker"
   }
 
   create_vnic_details {

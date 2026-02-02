@@ -3,18 +3,18 @@ resource "oci_budget_budget" "one_cent_budget" {
   target_type    = "TENANCY"
   targets        = [var.tenancy_ocid]
 
-  amount         = 1
-  reset_period   = "MONTHLY"
+  amount       = 1
+  reset_period = "MONTHLY"
 
-  description    = "Alert when spending reaches $0.01"
-  display_name   = "One-cent billing alarm"
+  description  = "Alert when spending reaches $0.01"
+  display_name = "One-cent billing alarm"
 }
 
 resource "oci_budget_alert_rule" "one_cent_alert" {
   budget_id = oci_budget_budget.one_cent_budget.id
 
-  type          = "ACTUAL"
-  threshold     = 1
+  type           = "ACTUAL"
+  threshold      = 1
   threshold_type = "PERCENTAGE"
 
   description  = "Triggered when OCI charges reach $0.01"
